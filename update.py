@@ -92,13 +92,16 @@ if __name__ == "__main__":
     # test_param()
     try:
         subscribe_dict = json.loads(base64.b64decode(os.environ['CONVERT_PARAM']).decode("utf-8"))
+        print(f"Read env CONVERT_PARAM success")
     except Exception as e:
         print(f"{e}")
         sys.exit(1)
     g_github_token = os.environ['PERSONAL_TOKEN']
     g_gist_id = os.environ['GIST_ID']
+    print("Prepare to convert subscribe...")
     filecontent_dict = convert_subscribe(subscribe_dict)
     if g_github_token != "" and g_gist_id != "":
+        print("Prepare to update gist...")
         update_gist(gist_id=g_gist_id,filecontent_dict=filecontent_dict)
         pass
     else:
