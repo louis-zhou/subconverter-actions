@@ -49,4 +49,4 @@ jobs:
         PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}  # 设置环境变量
         GIST_ID: ${{ secrets.GIST_ID }}
         CONVERT_PARAM: ${{ secrets.CONVERT_PARAM }}
-      run: python update.py   # 执行main.py脚本
+      run: python -u update.py   # 执行main.py脚本

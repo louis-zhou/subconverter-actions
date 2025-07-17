@@ -70,7 +70,20 @@ def convert_subscribe(subscribe_dict):
     for filename, params in subscribe_dict.items():
         url = f"{base_url}{params}"
         response = requests.get(url)
-        filecontent_dict[filename] = response.text+f"\n\n# Updated on {(datetime.now()+timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')}\n" # 展示UTC/GMT +8.00的时间
+
+        # 处理 gzip
+        if response.headers.get("Content-Encoding") == "gzip":
+            import gzip, io
+            raw = gzip.GzipFile(fileobj=io.BytesIO(response.content)).read()
+            text = raw.decode("utf-8")
+        else:
+            text = response.text
+
+        filecontent_dict[filename] = (
+            text +
+            f"\n\n# Updated on {(datetime.now()+timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')}\n"
+        )
+
     return filecontent_dict
 
 def test_param():
